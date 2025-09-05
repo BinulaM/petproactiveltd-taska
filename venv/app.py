@@ -9,8 +9,8 @@ PET_RECORDS = {
 }
 
 @app.route("/", methods=["GET"])
-def home():
-    return "Flask Test"
+def test():
+    return "Run Test"
 
 
 @app.route("/status", methods=["POST"])
