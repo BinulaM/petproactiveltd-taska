@@ -19,11 +19,14 @@ def status():
     if not request.is_json: # Check if request has JSON data
         abort(403, description = "JSON not in request")
 
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if data is None:
+        abort(403, description='Data is not valid JSON format')
 
     # Second Validator
     if "command" not in data or "practice_id" not in data:
         abort(403, description = "Missing 'command' or 'practice_id'")
+    
     
     if data["command"] != "status": # Check that command is status
         abort(403, description='Invalid "command" value')
@@ -34,13 +37,14 @@ def status():
 
     return jsonify({"pets_loaded_today": pets_loaded})
 
-@app.route('/healtcheck', methods=['GET']) # check if API is working 
+@app.route('/healthcheck', methods=['GET']) # check if API is working 
 def healthcheck():
-    return jsonify({"status": "working"})
+    return jsonify({"status": "working"}), 200
 
 @app.route("/practices/<practice_id>", methods=["GET"])
 def get_practice(practice_id):
-    pets_loaded = PET_RECORDS.get(practice_id, 0)
+    new_id = str(practice_id).lower().strip()
+    pets_loaded = PET_RECORDS.get(new_id, 0)
     return jsonify({"pets_loaded_today": pets_loaded})
 
 
