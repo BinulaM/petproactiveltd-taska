@@ -19,7 +19,7 @@ def status():
     if not request.is_json: # Check if request has JSON data
         abort(403, description = "JSON not in request")
 
-    data = request.get_json(silent=True)
+    data = request.get_json(silent=True) # If body isn't valid JSON, it will return None
     if data is None:
         abort(403, description='Data is not valid JSON format')
 
@@ -43,12 +43,12 @@ def healthcheck():
 
 @app.route("/practices/<practice_id>", methods=["GET"])
 def get_practice(practice_id):
-    new_id = str(practice_id).lower().strip()
-    pets_loaded = PET_RECORDS.get(new_id, 0)
+    practice_id_new = str(practice_id).lower().strip()
+    pets_loaded = PET_RECORDS.get(practice_id_new, 0)
     return jsonify({"pets_loaded_today": pets_loaded})
 
 
-@app.errorhandler(403)
+@app.errorhandler(403) # If error is raised with 403 status code
 def errorhandle(e):
     return jsonify({
         "error": "forbidden",
@@ -57,4 +57,6 @@ def errorhandle(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    import os # For deployment purposes
+    port = int(os.environ.get("PORT", 8080)) # Check if port exists
+    app.run(host='0.0.0.0', port=port, debug=False)
