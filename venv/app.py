@@ -34,8 +34,8 @@ def status():
 
     return jsonify({"pets_loaded_today": pets_loaded})
 
-@app.route('/working', methods=['GET']) # check if API is working 
-def working():
+@app.route('/healtcheck', methods=['GET']) # check if API is working 
+def healthcheck():
     return jsonify({"status": "working"})
 
 @app.route("/practices/<practice_id>", methods=["GET"])
