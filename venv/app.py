@@ -61,3 +61,43 @@ if __name__ == "__main__":
     import os # For deployment purposes
     port = int(os.environ.get("PORT", 8080)) # Check if port exists
     app.run(host='0.0.0.0', port=port, debug=False)
+
+
+
+
+
+# ---------------------- Commands ----------------------
+
+# ---- Test API works ---
+# curl -s https://pet-proactive-ltd-task-a.nw.r.appspot.com/healthcheck
+
+# ---- Valid Request ---
+# curl -s -X POST https://pet-proactive-ltd-task-a.nw.r.appspot.com/status \
+#   -H "Content-Type: application/json" \
+#   -d '{"command":"status","practice_id":"kitcat"}'
+
+# ---- Case & Whitespace handling ----
+# curl -s -X POST https://pet-proactive-ltd-task-a.nw.r.appspot.com/status \
+#   -H "Content-Type: application/json" \
+#   -d '{"command":"status","practice_id":"  KiTcaT  "}'
+
+
+# ---- Unknown Value Handling ----
+# curl -s -X POST https://pet-proactive-ltd-task-a.nw.r.appspot.com/status \
+#   -H "Content-Type: application/json" \
+#   -d '{"command":"status","practice_id":"unknown"}'
+
+
+# ---- Invalid JSON/403 ----
+# curl -s -X POST https://pet-proactive-ltd-task-a.nw.r.appspot.com/status \
+#   -H "Content-Type: application/json" \
+#   -d ''
+
+
+# ---- Wrong Command ----
+# curl -s -X POST https://pet-proactive-ltd-task-a.nw.r.appspot.com/status \
+#   -H "Content-Type: application/json" \
+#   -d '{"command":"hello_world","practice_id":"unknown"}'
+
+# ---- GET Request Check -----
+# curl -s https://pet-proactive-ltd-task-a.nw.r.appspot.com/practices/kitcat
