@@ -36,7 +36,7 @@ Deployed on **Google Cloud Platform (App Engine)** for scalability and testing.
 
 ### Example Request
 ```bash
-curl -X POST https://<your-app>.appspot.com/status \
+curl -X POST https://<app_name>.appspot.com/status \
   -H "Content-Type: application/json" \
   -d '{"command":"status","practice_id":"kitcat"}'
 ```
